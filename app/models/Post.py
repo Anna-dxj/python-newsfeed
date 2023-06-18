@@ -15,3 +15,4 @@ class Post(Base):
 
     # Establishes link between two models by speficying target model/reference to target class itself 
     user = relationship('User')
+    comments = relationship('Comment', cascade='all,delete')
