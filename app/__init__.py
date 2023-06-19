@@ -2,6 +2,7 @@
 from flask import Flask
 # Import home directly from routes package because its __init__.py file imported and renamed bp 
 from app.routes import home, dashboard
+from app.db import init_db 
 
 # def keyword defines function 
 def create_app(test_config=None):
@@ -25,4 +26,6 @@ def create_app(test_config=None):
     app.register_blueprint(home)
     app.register_blueprint(dashboard)
 
+    # Initializes database 
+    init_db()
     return app
