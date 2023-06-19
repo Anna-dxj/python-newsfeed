@@ -16,8 +16,11 @@ Session = sessionmaker(bind=engine)
 Base = declarative_base()
 
 # Initializes database & creates tables before interaction 
-def init_db():
+def init_db(app):
     Base.metadata.create_all(engine)
+
+    # Closes the databse connection whenever context is destroyed 
+    app.teardown_appcontext(close_db)
 
 # When function called returns the connection from the g object
 def get_db():
@@ -25,3 +28,10 @@ def get_db():
         # Stores db connection in app context
         g.db = Session()
     return g.db
+
+# Closes database connection
+def close_db(e=None):
+    db = g.pop('db', None)
+
+    if db is not None: 
+        db.close()

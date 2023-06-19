@@ -27,5 +27,6 @@ def create_app(test_config=None):
     app.register_blueprint(dashboard)
 
     # Initializes database 
-    init_db()
+    init_db(app)
+    
     return app
