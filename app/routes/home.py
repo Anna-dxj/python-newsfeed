@@ -1,7 +1,7 @@
 # Imports functions Blueprint() and render_template() from Flask module
 # Blueprint() allows for consolidating routes onto a single bp object that parent app can register later 
 # bp corresponds to using the Router middleware of Express.js
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, session, redirect
 from app.models import Post
 from app.db import get_db 
 
@@ -17,7 +17,8 @@ def index():
     # render_templat() responds with a template
     return render_template(
         'homepage.html',
-         posts=posts
+        posts=posts,  
+        loggedIn=session.get('loggedIn')
     )
 
 # Creates route using a parameter (<id>)
@@ -31,10 +32,15 @@ def single(id):
     # Return single post template
     return render_template(
         'single-post.html',
-        post=post
+        post=post,
+        loggedIn=session.get('loggedIn')
     )
 
 # Turns function login() into a route 
 @bp.route('/login')
 def login():
-    return render_template('login.html')
+    # not logged in yet
+    if session.get('loggedIn') is None:
+        return render_template('login.html')
+    
+    return redirect('/dashboard')
