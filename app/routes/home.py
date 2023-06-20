@@ -17,7 +17,7 @@ def index():
     # render_templat() responds with a template
     return render_template(
         'homepage.html',
-         posts=post
+         posts=posts
     )
 
 # Creates route using a parameter (<id>)

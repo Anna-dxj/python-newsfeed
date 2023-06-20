@@ -3,6 +3,7 @@ from flask import Flask
 # Import home directly from routes package because its __init__.py file imported and renamed bp 
 from app.routes import home, dashboard
 from app.db import init_db 
+from app.utils import filters
 
 # def keyword defines function 
 def create_app(test_config=None):
@@ -26,7 +27,12 @@ def create_app(test_config=None):
     app.register_blueprint(home)
     app.register_blueprint(dashboard)
 
+    # Registers filters
+    app.jinja_env.filters['format_url'] = filters.format_url
+    app.jinja_env.filters['format_date'] = filters.format_date
+    app.jinja_env.filters['format_plural'] = filters.format_plural
+
     # Initializes database 
     init_db(app)
-    
+
     return app
